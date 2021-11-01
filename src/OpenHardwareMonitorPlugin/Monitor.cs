@@ -13,7 +13,7 @@
         private readonly System.Timers.Timer timer;
         private readonly ManagementObjectSearcher managementObjectSearcher = new ManagementObjectSearcher("root\\openhardwaremonitor", "select identifier,value,SensorType,Max,Min from sensor");
         public event EventHandler OnRefreshValues;
-        
+        public String[] Identifiers { get; private set; } = new String[0];
         private Monitor()
         {
             this.timer = new System.Timers.Timer(1000);
@@ -36,7 +36,7 @@
 
         public List<SensorData> GetSensorData()
         {
-            return this.managementObjectSearcher.Get().OfType<ManagementObject>().Select(t =>
+            var list = this.managementObjectSearcher.Get().OfType<ManagementObject>().Select(t =>
             new SensorData
             {
                 Identifier = t.GetPropertyValue("identifier").ToString(),
@@ -47,6 +47,10 @@
                 Min = t.GetPropertyValue("Min").ToString(),
 
             }).ToList();
+
+            this.Identifiers = list.Select(l=> l.Identifier).Distinct().OrderBy(o=>o).ToArray();
+            return list;
+
         }
 
 

@@ -8,7 +8,9 @@ namespace Loupedeck.OpenHardwareMonitorPlugin
 
     public class OpenHardwareMonitorPlugin : Plugin
     {
-      
+
+        public override Boolean UsesApplicationApiOnly => true;
+        public override Boolean HasNoApplication => true;
         public override void Load()
         {
             var x = String.Empty;
@@ -34,10 +36,10 @@ namespace Loupedeck.OpenHardwareMonitorPlugin
         {
         }
     }
-    public class CPUTempCommand : PluginDynamicCommand
+    public class SensorMonitorCommand : PluginDynamicCommand
     {
         private List<SensorData> listSensorData;
-        public CPUTempCommand() : base("Hardware Monitor", "OpenHardwareMonitor", "Hardware Monitor")
+        public SensorMonitorCommand() : base("Hardware Monitor Sensor", "OpenHardwareMonitor", "Hardware Monitor")
         {
             Monitor.GetInstance().OnRefreshValues += (sender, e) =>
             {
@@ -45,8 +47,41 @@ namespace Loupedeck.OpenHardwareMonitorPlugin
                 this.ActionImageChanged("identifier");
             };
 
-            this.MakeProfileAction("text; Enter Identifier (e.g. /amdcpu/0/temperature/4");
-            this.AddParameter("identifier", "Identifier", String.Empty);
+            //this.MakeProfileAction("tree; Select Identifier:");
+            this.MakeProfileAction("tree");
+
+            //var sensorIds = Monitor.GetInstance().Identifiers;
+            //foreach (var id in sensorIds)
+            //{
+            //this.AddParameter("identifier", "identifier", String.Empty);
+            //}
+            
+        }
+
+        protected override PluginProfileActionData GetProfileActionData()
+        {
+            // create tree data
+
+            var tree = new PluginProfileActionTree("Select Sensor");
+
+            // describe levels
+            
+            tree.AddLevel("Category");
+            tree.AddLevel("identifier");
+            var node = tree.Root.AddNode("All");
+
+            // add data tree
+
+            var sensorIds = Monitor.GetInstance().Identifiers;
+            foreach (var id in sensorIds)
+            {
+                node.AddItem(id,id);
+            }
+
+            // return tree data
+
+            return tree;
+
         }
 
         protected override String GetCommandDisplayName(String actionParameter, PluginImageSize imageSize)
