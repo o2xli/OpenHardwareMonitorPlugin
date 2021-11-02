@@ -15,7 +15,9 @@
 
         public String Identifier { get; set; }
         public String SensorType { get; set; }
-        public String Name { get => this.GetName(); }
+
+        public String Name { get; set; }
+        //public String Name { get => this.GetName(); }
         public String Min { get => this.FormatValue(this.min); set => this.min = value; }
         public String Max { get => this.FormatValue(this.max); set => this.max = value; }
         public String Value { get => this.FormatValue(this.value); set => this.value = value; }
@@ -56,18 +58,7 @@
             return value.ToString();
         }
 
-        private String GetName()
-        {
-            if(!String.IsNullOrWhiteSpace(this.Identifier))
-            {
-                var parts = this.Identifier.Split('/');
-                if(parts.Length > 1)
-                {
-                    return parts[1];
-                }
-            }
-            return this.Identifier;
-        }
+       
 
         private String Cut(String value)
         {

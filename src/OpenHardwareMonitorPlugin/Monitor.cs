@@ -11,8 +11,11 @@
     {
         private static Monitor _instance;
         private readonly System.Timers.Timer timer;
-        private readonly ManagementObjectSearcher managementObjectSearcher = new ManagementObjectSearcher("root\\openhardwaremonitor", "select identifier,value,SensorType,Max,Min from sensor");
+        private readonly ManagementObjectSearcher managementObjectSearcher = new ManagementObjectSearcher("root\\openhardwaremonitor", "select identifier,value,SensorType,Max,Min,name from sensor");
         public event EventHandler OnRefreshValues;
+
+        private List<SensorData> list;
+
         public String[] Identifiers { get; private set; } = new String[0];
         private Monitor()
         {
@@ -36,22 +39,32 @@
 
         public List<SensorData> GetSensorData()
         {
-            var list = this.managementObjectSearcher.Get().OfType<ManagementObject>().Select(t =>
+            this.list = this.managementObjectSearcher.Get().OfType<ManagementObject>()
+            .Select(t =>
             new SensorData
             {
                 Identifier = t.GetPropertyValue("identifier").ToString(),
                 SensorType = t.GetPropertyValue("SensorType").ToString(),
-                //Name = t.GetPropertyValue("Name").ToString(),
+                Name = t.GetPropertyValue("Name").ToString(),
                 Value = t.GetPropertyValue("Value").ToString(),
                 Max = t.GetPropertyValue("Max").ToString(),
                 Min = t.GetPropertyValue("Min").ToString(),
 
             }).ToList();
 
-            this.Identifiers = list.Select(l=> l.Identifier).Distinct().OrderBy(o=>o).ToArray();
-            return list;
+            this.Identifiers = this.list.Select(l=> l.Identifier).Distinct().OrderBy(o=>o).ToArray();
+            return this.list;
 
         }
+
+        public SensorData GetSensor(String identifier)
+        {
+            lock (this.list)
+            {
+                return this.list.FirstOrDefault(l => l.Identifier.Equals(identifier, StringComparison.OrdinalIgnoreCase));
+            }
+        }
+    
 
 
     }

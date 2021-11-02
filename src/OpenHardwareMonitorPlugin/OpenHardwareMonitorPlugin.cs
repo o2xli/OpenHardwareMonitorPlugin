@@ -44,41 +44,29 @@ namespace Loupedeck.OpenHardwareMonitorPlugin
             Monitor.GetInstance().OnRefreshValues += (sender, e) =>
             {
                 this.listSensorData = sender as List<SensorData>;
-                this.ActionImageChanged("identifier");
+                this.ActionImageChanged();
             };
-
-            //this.MakeProfileAction("tree; Select Identifier:");
             this.MakeProfileAction("tree");
-
-            //var sensorIds = Monitor.GetInstance().Identifiers;
-            //foreach (var id in sensorIds)
-            //{
-            //this.AddParameter("identifier", "identifier", String.Empty);
-            //}
-            
         }
 
         protected override PluginProfileActionData GetProfileActionData()
         {
-            // create tree data
-
             var tree = new PluginProfileActionTree("Select Sensor");
-
-            // describe levels
-            
-            tree.AddLevel("Category");
-            tree.AddLevel("identifier");
-            var node = tree.Root.AddNode("All");
-
-            // add data tree
-
             var sensorIds = Monitor.GetInstance().Identifiers;
-            foreach (var id in sensorIds)
-            {
-                node.AddItem(id,id);
-            }
 
-            // return tree data
+            tree.AddLevel("category");
+            tree.AddLevel("identifier");
+
+            foreach (var category in sensorIds.Select(c => c.Trim('/').Split('/').First()).Distinct())
+            {
+                var node = tree.Root.AddNode(category);
+
+                foreach (var id in sensorIds.Where(s => s.StartsWith($"/{category}")))
+                {
+                    var sensor = Monitor.GetInstance().GetSensor(id);
+                    node.AddItem(id, $"{sensor.SensorType} {sensor.Name}");
+                }
+            }
 
             return tree;
 
