@@ -31,7 +31,7 @@
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>    
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PluginApi, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Extentions.cs" />
     <Compile Include="Monitor.cs" />
+    <Compile Include="PluginHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OpenHardwareMonitorApplication.cs" />
     <Compile Include="OpenHardwareMonitorPlugin.cs" />

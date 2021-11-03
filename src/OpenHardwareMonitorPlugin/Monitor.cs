@@ -46,9 +46,9 @@
                 Identifier = t.GetPropertyValue("identifier").ToString(),
                 SensorType = t.GetPropertyValue("SensorType").ToString(),
                 Name = t.GetPropertyValue("Name").ToString(),
-                Value = t.GetPropertyValue("Value").ToString(),
-                Max = t.GetPropertyValue("Max").ToString(),
-                Min = t.GetPropertyValue("Min").ToString(),
+                Value = (Single)t.GetPropertyValue("Value"),
+                Max = (Single)t.GetPropertyValue("Max"),
+                Min = (Single)t.GetPropertyValue("Min"),
 
             }).ToList();
 

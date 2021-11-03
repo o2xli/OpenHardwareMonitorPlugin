@@ -8,9 +8,9 @@
 
     internal class SensorData
     {
-        private String min;
-        private String max;
-        private String value;
+        private Single min;
+        private Single max;
+        private Single value;
         private String name;
 
         public String Identifier { get; set; }
@@ -18,11 +18,14 @@
 
         public String Name { get; set; }
         //public String Name { get => this.GetName(); }
-        public String Min { get => this.FormatValue(this.min); set => this.min = value; }
-        public String Max { get => this.FormatValue(this.max); set => this.max = value; }
-        public String Value { get => this.FormatValue(this.value); set => this.value = value; }
+        public String MinFormatted { get => this.FormatValue(this.Min);  }
+        public String MaxFormatted { get => this.FormatValue(this.Max);  }
+        public String ValueFormatted { get => this.FormatValue(this.Value); }
+        public Single Min { get => this.min; set => this.min = value; }
+        public Single Max { get => this.max; set => this.max = value; }
+        public Single Value { get => this.value; set => this.value = value; }
 
-        private String FormatValue(String value)
+        private String FormatValue(Single value)
         {
             var prefix = $"{this.Name}\n \n{ this.Cut(value)}";
             switch (this.SensorType)
@@ -60,9 +63,9 @@
 
        
 
-        private String Cut(String value)
+        private String Cut(Single value)
         {
-            return value.Split(',', '.').First();
+            return value.ToString().Split(',', '.').First();
         }
     }
 }

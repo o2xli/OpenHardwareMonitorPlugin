@@ -75,7 +75,7 @@ namespace Loupedeck.OpenHardwareMonitorPlugin
         protected override String GetCommandDisplayName(String actionParameter, PluginImageSize imageSize)
         {
             var sensor = this.listSensorData.SelectSensorData(actionParameter);
-            return sensor != null ? sensor.Value : String.Empty;
+            return sensor != null ? sensor.ValueFormatted : String.Empty;
         }
 
 
@@ -83,17 +83,17 @@ namespace Loupedeck.OpenHardwareMonitorPlugin
         protected override BitmapImage GetCommandImage(String actionParameter, PluginImageSize imageSize)
         {
             var bitmap = new BitmapBuilder(imageSize);
-            bitmap.FillRectangle(0, 0, 90, 90, BitmapColor.Black);
+            bitmap.FillRectangle(0, 0, 90, 90, new BitmapColor(0, 109, 0));
 
-            bitmap.FillRectangle(0, 0, 10, 80, new BitmapColor(0,600,0));
-            bitmap.FillRectangle(10, 0, 10, 30, new BitmapColor(0, 600, 0));
-            bitmap.FillRectangle(20, 0, 10, 70, new BitmapColor(0, 600, 0));
-            bitmap.FillRectangle(30, 0, 10, 60, new BitmapColor(0, 600, 0));
-            bitmap.FillRectangle(40, 0, 10, 40, new BitmapColor(0, 600, 0));
-            bitmap.FillRectangle(50, 0, 10, 60, new BitmapColor(0, 600, 0));
-            bitmap.FillRectangle(60, 0, 10, 65, new BitmapColor(0, 600, 0));
-            bitmap.FillRectangle(70, 0, 10, 70, new BitmapColor(0, 600, 0));
-            bitmap.FillRectangle(80, 0, 10, 70, new BitmapColor(0, 600, 0));
+            //bitmap.FillRectangle(0, 0, 10, 80, new BitmapColor(0,600,0));
+            //bitmap.FillRectangle(10, 0, 10, 30, new BitmapColor(0, 600, 0));
+            //bitmap.FillRectangle(20, 0, 10, 70, new BitmapColor(0, 600, 0));
+            //bitmap.FillRectangle(30, 0, 10, 60, new BitmapColor(0, 600, 0));
+            //bitmap.FillRectangle(40, 0, 10, 40, new BitmapColor(0, 600, 0));
+            //bitmap.FillRectangle(50, 0, 10, 60, new BitmapColor(0, 600, 0));
+            //bitmap.FillRectangle(60, 0, 10, 65, new BitmapColor(0, 600, 0));
+            //bitmap.FillRectangle(70, 0, 10, 70, new BitmapColor(0, 600, 0));
+            //bitmap.FillRectangle(80, 0, 10, 70, new BitmapColor(0, 600, 0));
 
             bitmap.DrawText(this.GetCommandDisplayName(actionParameter, imageSize), BitmapColor.White, 20);
             return bitmap.ToImage();
