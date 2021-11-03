@@ -8,21 +8,16 @@
 
     internal class SensorData
     {
-        private Single min;
-        private Single max;
-        private Single value;
-        private String name;
-
         public String Identifier { get; set; }
         public String SensorType { get; set; }
 
         public String Name { get; set; }
-        public String MinFormatted { get => this.FormatValue(this.Min);  }
-        public String MaxFormatted { get => this.FormatValue(this.Max);  }
-        public String ValueFormatted { get => this.FormatValue(this.Value); }
-        public Single Min { get => this.min; set => this.min = value; }
-        public Single Max { get => this.max; set => this.max = value; }
-        public Single Value { get => this.value; set => this.value = value; }
+        public String MinFormatted => this.FormatValue(this.Min);
+        public String MaxFormatted => this.FormatValue(this.Max);
+        public String ValueFormatted => this.FormatValue(this.Value);
+        public Single Min { get; set; }
+        public Single Max { get; set; }
+        public Single Value { get; set; }
 
         private String FormatValue(Single value)
         {
