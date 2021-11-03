@@ -17,7 +17,6 @@
         public String SensorType { get; set; }
 
         public String Name { get; set; }
-        //public String Name { get => this.GetName(); }
         public String MinFormatted { get => this.FormatValue(this.Min);  }
         public String MaxFormatted { get => this.FormatValue(this.Max);  }
         public String ValueFormatted { get => this.FormatValue(this.Value); }
@@ -27,7 +26,7 @@
 
         private String FormatValue(Single value)
         {
-            var prefix = $"{this.Name}\n \n{ this.Cut(value)}";
+            var prefix = $"{this.Name}\n \n{ this.Round(value)}";
             switch (this.SensorType)
             {
                 case "Voltage":
@@ -61,11 +60,6 @@
             return value.ToString();
         }
 
-       
-
-        private String Cut(Single value)
-        {
-            return value.ToString().Split(',', '.').First();
-        }
+        private Int16 Round(Single value) => (Int16)Math.Round(value, 0, MidpointRounding.AwayFromZero);
     }
 }
