@@ -44,7 +44,7 @@
             new SensorData
             {
                 Identifier = t.GetPropertyValue("identifier").ToString(),
-                SensorType = t.GetPropertyValue("SensorType").ToString(),
+                SensorType = (SensorType)Enum.Parse(typeof(SensorType),t.GetPropertyValue("SensorType").ToString(),true),
                 Name = t.GetPropertyValue("Name").ToString(),
                 Value = (Single)t.GetPropertyValue("Value"),
                 Max = (Single)t.GetPropertyValue("Max"),
