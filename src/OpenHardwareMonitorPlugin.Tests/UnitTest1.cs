@@ -17,6 +17,7 @@ namespace OpenHardwareMonitorPlugin.Tests
                 var value = service.GetPropertyValue("value");
                 // show the service
                 Console.WriteLine();
+                Console.WriteLine();
             }
         }
     }
