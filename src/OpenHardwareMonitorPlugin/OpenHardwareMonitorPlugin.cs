@@ -85,12 +85,32 @@ namespace Loupedeck.OpenHardwareMonitorPlugin
             var sensor = this.listSensorData.SelectSensorData(actionParameter);
 
             var bitmap = new BitmapBuilder(imageSize);
-            bitmap.FillRectangle(0, 0, 90, 90, sensor.GetBitmapColor());
-           
+            bitmap.FillRectangle(0, 0, 90, 90, BitmapColor.Black);
+
+            this.DrawChart(sensor, bitmap);
+
             bitmap.DrawText(this.GetCommandDisplayName(actionParameter, imageSize), BitmapColor.White, 20);
             return bitmap.ToImage();
         }
 
+        private void DrawChart(SensorData sensor, BitmapBuilder bitmap)
+        {
+            var history = sensor.GetHistory();
+            var i = 0;
+            var baseWidth = 90;
+            foreach (var value in history.ToArray())
+            {
+                var height = baseWidth * (Int32)sensor.GetPercentageAgainstMax(value) / 100;
+                var width = 2;
+                var x = width * i;
+                var y = baseWidth - height;
 
+                var color = sensor.GetBitmapColor(value);
+                bitmap.FillRectangle(x, y, width, height, color);
+                i++;
+                if (i >= (baseWidth - 12) / width)
+                    break;
+            }
+        }
     }
 }
